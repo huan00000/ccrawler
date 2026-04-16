@@ -1,0 +1,29 @@
+
+name: C++ Douban Crawler CI
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake g++ libcurl4-openssl-dev
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make -j4
+
+      - name: Run crawler framework
+        run: ./build/crawler
+        
